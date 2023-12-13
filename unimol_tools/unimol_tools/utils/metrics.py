@@ -24,7 +24,7 @@ from scipy.stats import (
     spearmanr,
     pearsonr
 )
-from .base_logger import logger
+# from .base_logger import logger
 
 
 def cal_nan_metric(y_true, y_pred, nan_value=None, metric_func=None):
@@ -225,7 +225,7 @@ class Metrics(object):
         elif score >= min_score:
             wait += 1
             if wait == patience:
-                logger.warning(f'Early stopping at epoch: {epoch+1}')
+                print(f'Early stopping at epoch: {epoch+1}')
                 is_early_stop = True
         return is_early_stop, min_score, wait
 
@@ -240,7 +240,7 @@ class Metrics(object):
         elif score <= max_score:
             wait += 1
             if wait == patience:
-                logger.warning(f'Early stopping at epoch: {epoch+1}')
+                print(f'Early stopping at epoch: {epoch+1}')
                 is_early_stop = True
         return is_early_stop, max_score, wait
 
@@ -257,7 +257,7 @@ class Metrics(object):
         # default threshold metrics
         if metrics_key is None:
             metrics_key = METRICS_REGISTER['classification']['f1_score']
-        logger.info("metrics for threshold: {0}".format(
+        print("metrics for threshold: {0}".format(
             metrics_key[0].__name__))
         metrics = metrics_key[0]
         if metrics_key[1]:
@@ -271,7 +271,7 @@ class Metrics(object):
                 if metric(target, pred_label) > best_metric:
                     best_metric = metric(target, pred_label)
                     best_threshold = threshold
-            logger.info("best threshold: {0}, metrics: {1}".format(
+            print("best threshold: {0}, metrics: {1}".format(
                 best_threshold, best_metric))
         else:
             # increase metric
@@ -283,7 +283,7 @@ class Metrics(object):
                 if metric(target, pred_label) < best_metric:
                     best_metric = metric(target, pred_label)
                     best_threshold = threshold
-            logger.info("best threshold: {0}, metrics: {1}".format(
+            print("best threshold: {0}, metrics: {1}".format(
                 best_threshold, best_metric))
 
         return best_threshold

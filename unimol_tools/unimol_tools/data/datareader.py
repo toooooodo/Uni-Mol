@@ -16,7 +16,7 @@ import numpy as np
 import csv
 from typing import List, Optional
 from rdkit import Chem
-from ..utils import logger
+# from ..utils import logger
 from ..config import MODEL_CONFIG
 import pathlib
 from rdkit.Chem.Scaffolds import MurckoScaffold
@@ -119,7 +119,7 @@ class MolDataReader(object):
     def check_smiles(self,smi, is_train, smi_strict):
         if Chem.MolFromSmiles(smi) is None:
             if is_train and not smi_strict:
-                logger.info(f'Illegal SMILES clean: {smi}')
+                print(f'Illegal SMILES clean: {smi}')
                 return False
             else:
                 raise ValueError(f'SMILES rule is illegal: {smi}')
@@ -144,7 +144,7 @@ class MolDataReader(object):
         target_col = target_cols[0]
         _mean, _std = data[target_col].mean(), data[target_col].std()
         data = data[(data[target_col] > _mean - 3 * _std) & (data[target_col] < _mean + 3 * _std)]
-        logger.info('Anomaly clean with 3 sigma threshold: {} -> {}'.format(sz, data.shape[0]))
+        print('Anomaly clean with 3 sigma threshold: {} -> {}'.format(sz, data.shape[0]))
         return data
     
 

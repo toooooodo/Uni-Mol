@@ -13,7 +13,7 @@ from torch.nn import functional as F
 import joblib
 from torch.utils.data import Dataset
 import numpy as np
-from ..utils import logger
+# # from ..utils import logger
 from .unimol import UniMolModel
 from .loss import GHMC_Loss, FocalLossWithLogits, myCrossEntropyLoss, MAEwithNan
 
@@ -100,7 +100,7 @@ class NNModel(object):
             raise ValueError('X must be numpy array or dict')
 
     def run(self):
-        logger.info("start training Uni-Mol:{}".format(self.model_name))
+        print("start training Uni-Mol:{}".format(self.model_name))
         X = np.asarray(self.features)
         y = np.asarray(self.data['target'])
         group = np.asarray(self.data['group']) if self.data['group'] is not None else None
@@ -126,7 +126,7 @@ class NNModel(object):
             else:
                 label_cnt = None
 
-            logger.info("fold {0}, result {1}".format(
+            print("fold {0}, result {1}".format(
                 fold,
                 self.metrics.cal_metric(
                         self.data['target_scaler'].inverse_transform(y_valid),
@@ -141,8 +141,8 @@ class NNModel(object):
             y), self.data['target_scaler'].inverse_transform(self.cv['pred']))
         self.dump(self.cv['pred'], self.save_path, 'cv.data')
         self.dump(self.cv['metric'], self.save_path, 'metric.result')
-        logger.info("Uni-Mol metrics score: \n{}".format(self.cv['metric']))
-        logger.info("Uni-Mol & Metric result saved!")
+        print("Uni-Mol metrics score: \n{}".format(self.cv['metric']))
+        print("Uni-Mol & Metric result saved!")
 
     def dump(self, data, dir, name):
         path = os.path.join(dir, name)
@@ -151,7 +151,7 @@ class NNModel(object):
         joblib.dump(data, path)
 
     def evaluate(self, trainer=None,  checkpoints_path=None):
-        logger.info("start predict NNModel:{}".format(self.model_name))
+        print("start predict NNModel:{}".format(self.model_name))
         testdataset = NNDataset(self.features, np.asarray(self.data['target']))
         for fold in range(self.splitter.n_splits):
             model_path = os.path.join(checkpoints_path, f'model_{fold}.pth')

@@ -19,7 +19,7 @@ import argparse
 import pathlib
 import os
 
-from ..utils import logger
+# from ..utils import logger
 from ..config import MODEL_CONFIG
 
 BACKBONE = {
@@ -108,12 +108,12 @@ class UniMolModel(BaseUnicoreModel):
     def load_pretrained_weights(self, path):
         if path is not None:
             if self.data_type == 'mof':
-                logger.info("Loading pretrained weights from {}".format(path))
+                print("Loading pretrained weights from {}".format(path))
                 state_dict = torch.load(path, map_location=lambda storage, loc: storage)
                 model_dict = {k.replace('unimat.',''):v for k, v in state_dict['model'].items()}
                 self.load_state_dict(model_dict, strict=True)
             else:
-                logger.info("Loading pretrained weights from {}".format(path))
+                print("Loading pretrained weights from {}".format(path))
                 state_dict = torch.load(path, map_location=lambda storage, loc: storage)
                 self.load_state_dict(state_dict['model'], strict=False)
 

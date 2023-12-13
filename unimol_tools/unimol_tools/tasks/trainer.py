@@ -18,7 +18,7 @@ from torch.optim import Adam
 from torch.nn.utils import clip_grad_norm_
 from transformers.optimization import get_linear_schedule_with_warmup
 from ..utils import Metrics
-from ..utils import logger
+# # from ..utils import logger
 from .split import Splitter
 from tqdm import tqdm
 
@@ -166,7 +166,7 @@ class Trainer(object):
                                  _metric, _score,
                                  optimizer.param_groups[0]['lr'],
                                  (end_time - start_time))
-            logger.info(message)
+            print(message)
             is_early_stop, min_val_loss, wait, max_score = self._early_stop_choice(
                 wait, total_val_loss, min_val_loss, metric_score, max_score, model, dump_dir, fold, self.patience, epoch)
             if is_early_stop:
@@ -199,7 +199,7 @@ class Trainer(object):
         elif loss >= min_loss:
             wait += 1
             if wait == self.patience:
-                logger.warning(f'Early stopping at epoch: {epoch+1}')
+                print(f'Early stopping at epoch: {epoch+1}')
                 is_early_stop = True
         return is_early_stop, min_loss, wait
 
@@ -210,7 +210,7 @@ class Trainer(object):
             model_dict = torch.load(load_model_path, map_location=self.device)[
                 "model_state_dict"]
             model.load_state_dict(model_dict)
-            logger.info("load model success!")
+            print("load model success!")
         dataloader = NNDataLoader(
             feature_name=feature_name,
             dataset=dataset,

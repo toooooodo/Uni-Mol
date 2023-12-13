@@ -16,7 +16,7 @@ from .data import DataHub
 from .models import NNModel
 from .tasks import Trainer
 from .utils import YamlHandler
-from .utils import logger
+# from .utils import logger
 
 
 class MolPredict(object):
@@ -63,7 +63,7 @@ class MolPredict(object):
             os.makedirs(self.save_path, exist_ok=True)
         if not (df[self.target_cols] == -1.0).all().all():
             metrics = self.trainer.metrics.cal_metric(df[self.target_cols].values, df[prob_cols].values)
-            logger.info("final predict metrics score: \n{}".format(metrics))
+            print("final predict metrics score: \n{}".format(metrics))
             if self.save_path:
                 joblib.dump(metrics, os.path.join(self.save_path, 'test_metric.result'))
         else:
@@ -71,7 +71,7 @@ class MolPredict(object):
         if self.save_path:
             prefix = data.split('/')[-1].split('.')[0] if isinstance(data, str) else 'test'
             self.save_predict(df, self.save_path, prefix)
-            logger.info("pipeline finish!")
+            print("pipeline finish!")
 
         return y_pred
     
@@ -86,4 +86,4 @@ class MolPredict(object):
         name = prefix + f'.predict.{run_id}' + '.csv'
         path = os.path.join(dir, name)
         data.to_csv(path)
-        logger.info("save predict result to {}".format(path))
+        print("save predict result to {}".format(path))

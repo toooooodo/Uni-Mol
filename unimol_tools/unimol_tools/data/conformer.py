@@ -19,7 +19,7 @@ from unicore.data import Dictionary
 from multiprocessing import Pool
 from tqdm import tqdm
 import pathlib
-from ..utils import logger
+# # from ..utils import logger
 from ..config import MODEL_CONFIG
 
 WEIGHT_DIR = os.path.join(pathlib.Path(__file__).resolve().parents[1], 'weights')
@@ -59,13 +59,13 @@ class ConformerGen(object):
 
     def transform(self, smiles_list):
         pool = Pool()
-        logger.info('Start generating conformers...')
+        print('Start generating conformers...')
         inputs = [item for item in tqdm(pool.imap(self.single_process, smiles_list))]
         pool.close()
         failed_cnt = np.mean([(item['src_coord']==0.0).all() for item in inputs])
-        logger.info('Failed to generate conformers for {:.2f}% of molecules.'.format(failed_cnt*100))
+        print('Failed to generate conformers for {:.2f}% of molecules.'.format(failed_cnt*100))
         failed_3d_cnt = np.mean([(item['src_coord'][:,2]==0.0).all() for item in inputs])
-        logger.info('Failed to generate 3d conformers for {:.2f}% of molecules.'.format(failed_3d_cnt*100))
+        print('Failed to generate 3d conformers for {:.2f}% of molecules.'.format(failed_3d_cnt*100))
         return inputs
 
 def inner_smi2coords(smi, seed=42, mode='fast', remove_hs=True):

@@ -16,7 +16,7 @@ from .data import DataHub
 from .models import NNModel
 from .tasks import Trainer
 from .utils import YamlHandler
-from .utils import logger
+# from .utils import logger
 
 class MolTrain(object):
     def __init__(self, 
@@ -99,11 +99,11 @@ class MolTrain(object):
         self.config['split_method'] = f"{self.config['kfold']}fold_{self.config['split']}"
         if self.save_path is not None:
             if not os.path.exists(self.save_path):
-                logger.info('Create output directory: {}'.format(self.save_path))
+                print('Create output directory: {}'.format(self.save_path))
                 os.makedirs(self.save_path)
             else:
-                logger.info('Output directory already exists: {}'.format(self.save_path))
-                logger.info('Warning: Overwrite output directory: {}'.format(self.save_path))
+                print('Output directory already exists: {}'.format(self.save_path))
+                print('Warning: Overwrite output directory: {}'.format(self.save_path))
             out_path = os.path.join(self.save_path, 'config.yaml')
             self.yamlhandler.write_yaml(data = self.config, out_file_path = out_path)
         return

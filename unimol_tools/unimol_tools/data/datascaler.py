@@ -23,7 +23,7 @@ from sklearn.preprocessing import (
     FunctionTransformer,
 )
 from scipy.stats import skew, kurtosis
-from ..utils import logger
+# from ..utils import logger
 
 
 SCALER_MODE = {
@@ -72,7 +72,7 @@ class TargetScaler(object):
             if self.task == 'regression':
                 if self.is_skewed(target):
                     self.scaler = SCALER_MODE['robust']()
-                    logger.info('Auto select robust transformer.')
+                    print('Auto select robust transformer.')
                 else:
                     self.scaler = SCALER_MODE['standard']()
                 self.scaler.fit(target)
@@ -82,7 +82,7 @@ class TargetScaler(object):
                 for i in range(target.shape[1]):
                     if self.is_skewed(target[:, i]):
                         self.scaler.append(SCALER_MODE['robust']())
-                        logger.info('Auto select robust transformer.')
+                        print('Auto select robust transformer.')
                     else:
                         self.scaler.append(SCALER_MODE['standard']())
                     self.scaler[-1].fit(target[:, i:i+1])

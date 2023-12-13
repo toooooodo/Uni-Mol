@@ -15,7 +15,7 @@ from collections import defaultdict
 from .datareader import MolDataReader
 from .datascaler import TargetScaler
 from .conformer import ConformerGen
-from ..utils import logger
+# # from ..utils import logger
 
 class DataHub(object):
     def __init__(self, data=None, is_train=True, save_path=None, **params):

@@ -9,7 +9,7 @@ import os
 from addict import Dict
 import logging
 
-from .base_logger import logger
+# from .base_logger import logger
 
 class YamlHandler:
     """handle yaml file
@@ -26,7 +26,7 @@ class YamlHandler:
             return FileExistsError(OSError)
             
         self.file_path = file_path
-        # logger.info('yaml handler load path: {}'.format(self.file_path))
+        # print('yaml handler load path: {}'.format(self.file_path))
 
     def read_yaml(self, encoding='utf-8'):
         """ read yaml file and convert to easydict
