@@ -270,7 +270,7 @@ class Trainer(object):
         )
         model = model.eval()
         repr_dict = {"cls_repr": [], "atomic_coords": [], "atomic_reprs": [], "atomic_symbol": []}
-        for batch in tqdm(dataloader):
+        for batch in dataloader:
             net_input, _ = self.decorate_batch(batch, feature_name)
             with torch.no_grad():
                 outputs = model(**net_input,
