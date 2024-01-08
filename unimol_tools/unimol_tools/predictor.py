@@ -39,6 +39,7 @@ class UniMolRepr(object):
         self.model = UniMolModel(output_dim=1, data_type=data_type, remove_hs=remove_hs).to(self.device)
         self.model.eval()
         self.params = {'data_type': data_type, 'remove_hs': remove_hs}
+        self.use_gpu = use_gpu
    
     def get_repr(self, data=None, return_atomic_reprs=False):
 
@@ -59,7 +60,7 @@ class UniMolRepr(object):
                          **self.params,
                         )
         dataset = MolDataset(datahub.data['unimol_input'])
-        self.trainer = Trainer(task='repr')
+        self.trainer = Trainer(task='repr', cuda=self.use_gpu)
         repr_output = self.trainer.inference(self.model, 
                                              return_repr=True, 
                                              return_atomic_reprs=return_atomic_reprs, 
