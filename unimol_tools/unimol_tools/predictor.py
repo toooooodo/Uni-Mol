@@ -34,12 +34,13 @@ class MolDataset(Dataset):
 class UniMolRepr(object):
     def __init__(self, data_type='molecule', 
                  remove_hs=False, 
-                 use_gpu=True):
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cpu")
+                 device=torch.device('cpu')):
+        # self.device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cpu")
+        self.device = device
         self.model = UniMolModel(output_dim=1, data_type=data_type, remove_hs=remove_hs).to(self.device)
         self.model.eval()
         self.params = {'data_type': data_type, 'remove_hs': remove_hs}
-        self.use_gpu = use_gpu
+        # self.use_gpu = use_gpu
    
     def get_repr(self, data=None, return_atomic_reprs=False):
 
@@ -60,7 +61,7 @@ class UniMolRepr(object):
                          **self.params,
                         )
         dataset = MolDataset(datahub.data['unimol_input'])
-        self.trainer = Trainer(task='repr', cuda=self.use_gpu)
+        self.trainer = Trainer(task='repr', device=self.device)
         repr_output = self.trainer.inference(self.model, 
                                              return_repr=True, 
                                              return_atomic_reprs=return_atomic_reprs, 

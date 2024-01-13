@@ -51,10 +51,11 @@ class Trainer(object):
         self.warmup_ratio = params.get('warmup_ratio', 0.1)
         self.patience = params.get('patience', 10)
         self.max_norm = params.get('max_norm', 1.0)
-        self.cuda = params.get('cuda', False)
+        # self.cuda = params.get('cuda', False)
         self.amp = params.get('amp', False)
-        self.device = torch.device(
-            "cuda:0" if torch.cuda.is_available() and self.cuda else "cpu")
+        # self.device = torch.device(
+        #     "cuda:0" if torch.cuda.is_available() and self.cuda else "cpu")
+        self.device = params.get('device', torch.device('cpu'))
         self.scaler = torch.cuda.amp.GradScaler(
         ) if self.device.type == 'cuda' and self.amp == True else None
 
