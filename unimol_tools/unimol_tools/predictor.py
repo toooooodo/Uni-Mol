@@ -12,6 +12,7 @@ import numpy as np
 import torch
 import argparse
 import joblib
+from torch import nn
 from torch.utils.data import DataLoader, Dataset
 from .data import MOFReader, DataHub
 from .models import UniMolModel
@@ -31,7 +32,7 @@ class MolDataset(Dataset):
         return len(self.data)
     
 
-class UniMolRepr(object):
+class UniMolRepr(nn.Module):
     def __init__(self, data_type='molecule', 
                  remove_hs=False, 
                  device=torch.device('cpu')):
